@@ -12,7 +12,7 @@
 
 **Aspectos a revisar:** Me llama mucho la atención del proyecto que por cada interacción que se realiza con las teclas, los visuales aunque sean los mismos inician de manera aleatoria es un diseño generativo pero el arte generativo lo construye el usuario al interactuar y generar melodias.
 
-![image](https://github.com/user-attachments/assets/54044b62-6bf9-4560-854e-8d3e689aa3c0)
+![image](../../../../assets/pictures/proyecto_2.png)
 
 
 **2. Proyecto "Unnumbered Sparks" por Aaron Koblin y Janet Echelman**
@@ -24,7 +24,7 @@
 
 **Aspectos a revisar:** Me llama mucho la atención que se integren los celulares para que los usarios puedan interactuar con la obra y que los patrones que dibujan sobre la escultura son generativos y proyectados en tiempo real seguún la interacción, dandole vida a la obra.
 
-![image](https://github.com/user-attachments/assets/4e031958-79fc-4a67-8a52-c58c5154ec3a)
+![image](../../../../assets/pictures/proyecto_3.png)
 
 
 **3. Proyecto Emotia - EXpy Fest 2024**
