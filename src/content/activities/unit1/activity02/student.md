@@ -1,6 +1,6 @@
 #### Exploración de referentes
 
-![Screen Shot 2025-01-28 at 11 30 53 AM](https://github.com/user-attachments/assets/44237999-d446-44e4-91f8-b8caf47494cf)
+![proyecto_1](../../../../assets/pictures/proyecto_1.png)
 
 **1. Proyecto "Patatap" y "Typatone" por Jono Brandel y Lullatone** 
 
