@@ -2,11 +2,17 @@
 
 <img src="../../../../assets/pictures/Screen Shot 2025-02-04 at 10.31 AM.png" width="350">
 
-[Link de OpenProcessing](https://openprocessing.org/sketch/2456871)
+[Link de Generative Design](http://www.generative-gestaltung.de/2/sketches/?01_P/P_2_3_3_01)
 
-**Descripción:**
+**Descripción:** Este sketch permite dibujar con texto, generando una secuencia de letras que siguen el movimiento del mouse. El tamaño de las letras varía según la distancia recorrida, y la rotación se ajusta en función del ángulo de movimiento.
+
 
 **Parámetros:**
+
+- **`stepSize`:** Define la distancia entre caracteres según el movimiento del mouse.
+- **`fontSizeMin`:** Establece el tamaño mínimo de la fuente.
+- **`angleDistortion`:** Controla la distorsión del ángulo al dibujar los caracteres.
+- **`letters`:** Contiene la secuencia de texto utilizada en el dibujo.
 
 **Variaciones:**
 1. Variante:
