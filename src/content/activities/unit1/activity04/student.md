@@ -334,19 +334,130 @@ function easeInOutElastic(x) {
 **Modificación del código:** 
 
 
-<img src="../../../../assets/pictures/Screen Shot 2025-02-04 at  AM.png" width="350">
+<img src="../../../../assets/pictures/Screen Shot 2025-02-04 at 1.03.11 PM.png" width="350">
 
 
--  Modifiqué 
--  Modifiqué 
--  Modifiqué 
--  Modofiqué
+-  Modifiqué el uso de BlendMode(ADD) para que se pudieran colorear las formas generadas usando RGB en vez de HSL y definiendo los colores. 
+-  Modifiqué el codigo de manera que detectara el mouse en el eje x para que girara segun la posicion del cursor.
+-  Modifiqué el modo de color ajustandola a una paleta de colores personalizada con un arreglo de colores vibrantes.
+-  Modifiqué la velocidad de rotación basandose en la posicion del cursor
   
 <details>
   <summary>Código modificado</summary>
   
   ```js
-  
+  let global_n = 0;
+let rotationSpeed = 0; // Variable para controlar la velocidad de rotación
+let colors = []; // Arreglo para almacenar la paleta de colores
+
+function setup() {
+  createCanvas(800, 800);
+  // Definir una paleta de colores vibrantes
+  colors = [
+    color(255, 0, 0),    // Rojo
+    color(0, 255, 0),    // Verde
+    color(0, 0, 255),    // Azul
+    color(255, 255, 0),  // Amarillo
+    color(0, 255, 255),  // Cian
+    color(255, 0, 255),  // Magenta
+    color(255, 165, 0),  // Naranja
+    color(75, 0, 130)    // Índigo
+  ];
+  angleMode(DEGREES);
+}
+
+function draw() {
+  background(20);
+  randomSeed(0);
+
+  // Calcular la velocidad de rotación basada en la posición del mouse
+  rotationSpeed = map(mouseX, 0, width, -0.5, 0.5);
+
+  // Aplicar rotación al lienzo
+  translate(width / 2, height / 2);
+  rotate(frameCount * rotationSpeed);
+  translate(-width / 2, -height / 2);
+
+  consecutiveHollowedOutArc(width / 2, height / 2, 50, 300, 0, 360);
+}
+
+function consecutiveHollowedOutArc(center_x, center_y, r_min, r_max, start_angle, end_angle) {
+  push();
+  translate(center_x, center_y);
+  let angle = start_angle;
+  let angle_step;
+  let mode = random() > 0.5;
+  let r = r_max;
+  let r_step = 10;
+  while (r > r_min) {
+    if (mode == false) {
+      r_step = int(random(3, 10)) * 3;
+    } else {
+      r_step = int(random(3, 10)) * 10;
+    }
+    angle = start_angle;
+    while (angle < end_angle) {
+      if (mode == true) {
+        angle_step = int(random(random()) * 4 + 1) * 5;
+      } else {
+        angle_step = int(random(1, 5)) * 15;
+      }
+      if (random() > 0.95) mode = !mode;
+      if (angle + angle_step > end_angle) angle_step = end_angle - angle;
+      hollowedOutArc(0, 0, r, max(r / 4, r - r_step), angle, angle + angle_step, true, 1);
+      angle += angle_step;
+    }
+    r -= r_step;
+  }
+  pop();
+}
+
+function hollowedOutArc(x, y, maxD, minD, startAngle, endAngle, bool, angleStep = 1) {
+  let dir = random() > 0.5 ? -1 : 1;
+  push();
+  translate(x, y);
+  // Asignar un color aleatorio de la paleta
+  stroke(random(colors));
+  noFill();
+  if (bool) {
+    if (global_n++ % 2 == 0) {
+      let angle = min(startAngle, endAngle);
+      let angle_plus = (max(endAngle, startAngle) - min(endAngle, startAngle)) / int(random([1, 3, 5, 7, 9, 11, 13]));
+      while (angle < endAngle) {
+        hollowedOutArc(0, 0, maxD, minD, angle, angle + angle_plus, false, 1);
+        angle += angle_plus;
+      }
+    } else {
+      let d = minD;
+      let d_plus = (maxD - minD) / int(random([1, 3, 5, 7, 9, 11, 13]));
+      while (d < maxD) {
+        hollowedOutArc(0, 0, d, d + d_plus, startAngle, endAngle, false, 1);
+        d += d_plus;
+      }
+    }
+  } else {
+    let t = (1 + ((maxD + startAngle / 360 + (dir * frameCount) / 100) % 1)) % 1;
+    t = easeInOutCirc(t);
+    let sw = max(maxD, minD) - min(maxD, minD);
+    strokeCap(SQUARE);
+    strokeWeight((1 - t) * sw);
+    let d = minD + sw / 2;
+    let ld = (2 * d * PI * (endAngle - startAngle)) / 360;
+    drawingContext.setLineDash([ld]);
+    drawingContext.lineDashOffset = ld * t * 2;
+    beginShape();
+    for (let a = startAngle; a <= endAngle; a += angleStep) {
+      vertex(cos(a) * d, sin(a) * d);
+    }
+    endShape();
+  }
+  pop();
+}
+
+function easeInOutCirc(x) {
+  return x < 0.5 ? (1 - Math.sqrt(1 - Math.pow(2 * x, 2))) / 2 : (Math.sqrt(1 - Math.pow(-2 * x + 2, 2)) + 1) / 2;
+}
+
   ```
 
 </details>
