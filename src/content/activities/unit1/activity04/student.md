@@ -461,3 +461,13 @@ function easeInOutCirc(x) {
   ```
 
 </details>
+
+#### Reflexión:
+
+Antes de explorar estos ejemplos de arte generativo, solía pensar que animaciones visualmente atractivas como estas eran creadas exclusivamente en programas como After Effects u otras herramientas de edición digital. Sin embargo, descubrir que este tipo de arte puede generarse a través de código parametrizado me ha abierto una nueva perspectiva sobre la creatividad y la programación.
+
+En el caso de Beijing Lucky Numbers, aprendí cómo la simple repetición de elementos numéricos, combinada con reglas algorítmicas de disposición y color, puede producir una estética poderosa y culturalmente significativa(Matrix). Me impresionó cómo el uso de parámetros controlados y aleatoriedad permite obtener composiciones que evocan tradiciones visuales, pero con una ejecución completamente generativa. 
+
+Por otro lado, Generative Art de Hamza Khan me mostró el increíble potencial de los algoritmos para crear piezas abstractas y envolventes. La manera en que los arcos concéntricos se generan en base a cálculos trigonométricos, convierte al código en una herramienta de expresión artística con posibilidades casi ilimitadas.
+
+
