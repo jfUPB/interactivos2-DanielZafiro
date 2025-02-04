@@ -1,6 +1,6 @@
 #### Exploración de referentes
 
-<img src="../../../../assets/pictures/proyecto_1.png" alt="proyecto 1" width="500">
+<img src="https://raw.githubusercontent.com/jfUPB/interactivos2-DanielZafiro/refs/heads/main/src/assets/pictures/proyecto_1.png" width="500">
 
 **1. Proyecto "Patatap" y "Typatone" por Jono Brandel y Lullatone** 
 
