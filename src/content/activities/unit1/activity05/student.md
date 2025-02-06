@@ -348,13 +348,36 @@ function keyPressed() {
 
 **Aplicación potencial en conexto de entretenimiento digital:**
 
-#### Ejemplo 2 "":
+**Decodificación de frases a partir de palabras**
+Los usuarios dibujan en la pantalla y aparecen palabras en negro hasta que encuentran palabras clave en color, que forman parte de una frase oculta. Luego, se van organizando automaicamente esas palabras en una cuadrícula para reconstruir el mensaje.
+
+💡 **Aplicaciones Potenciales**
+
+1️⃣ Educación y Aprendizaje de Idiomas 📝
+- Ayuda a estudiantes a descubrir frases en otro idioma de forma interactiva.
+- Refuerza la gramática y el vocabulario mediante el juego.
+- Ejemplo:
+    - 📝 Un estudiante de inglés dibuja palabras en la pantalla y encuentra “the”, “cat”, “is”, “on”, “the”, “table”. Ahora debe arrastrarlas y ordenarlas para formar una frase coherente.
+
+2️⃣ Escape Rooms y Juegos de Misterio 🔍
+- Los jugadores encuentran pistas ocultas en un texto y deben organizarlas para resolver acertijos.
+- Se pueden integrar palabras engañosas para aumentar la dificultad.
+
+3️⃣ Aprendizaje Histórico o Narrativo 📜
+- Se revelan frases importantes de textos históricos o filosóficos de forma interactiva.
+- Permite reconstruir discursos o documentos clave.
+
+4️⃣ Aventura y Ciencia Ficción 🚀
+- Se usa en juegos donde los jugadores descifran mensajes secretos o códigos alienígenas.
+- Agrega una capa de exploración y lógica en historias interactivas.
+
+#### Ejemplo 2 "M_6_1_03":
 
 <img src="../../../../assets/pictures/Screen Shot 2025-02-04 at 10.31 AM.png" width="350">
 
 [Link de OpenProcessing](https://openprocessing.org/sketch/2456871)
 
-**Descripción:**
+**Descripción:** Este sketch simula una red de nodos conectados por resortes, donde los nodos se repelen entre sí y los resortes intentan mantener una longitud específica. 
 
 <details>
   <summary>Código fuente</summary>
@@ -365,7 +388,12 @@ function keyPressed() {
   
 </details>
 
-**Parámetros:**
+**Parámetros:** Los parámetros principales incluyen:
+
+- `nodeCount`: Número de nodos en la simulación.
+- `nodeDiameter`: Diámetro visual de los nodos.
+- `spring.length`: Longitud natural de los resortes.
+- `spring.stiffness`: Rigidez de los resortes.
 
 **Variaciones:**
 1. Variante:
@@ -397,7 +425,7 @@ function keyPressed() {
 
 **Aplicación potencial en conexto de entretenimiento digital:**
 
-#### Ejemplo 3 "":
+#### Ejemplo 3 "M_6_1_03":
 
 <img src="../../../../assets/pictures/Screen Shot 2025-02-04 at 10.31 AM.png" width="350">
 
