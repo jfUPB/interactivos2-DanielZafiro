@@ -373,7 +373,7 @@ Los usuarios dibujan en la pantalla y aparecen palabras en negro hasta que encue
 
 #### Ejemplo 2 "M_6_1_03":
 
-<img src="../../../../assets/pictures/Screen Shot 2025-02-04 at 10.31 AM.png" width="350">
+<img src="../../../../assets/pictures/giphy1.gif" width="350">
 
 [Link de OpenProcessing](https://openprocessing.org/sketch/2456871)
 
@@ -407,21 +407,223 @@ Los usuarios dibujan en la pantalla y aparecen palabras en negro hasta que encue
      
    </details>
    
-     <img src="../../../../assets/pictures/Screen Shot 2025-02-04 at 10.31 AM.png" width="350">
+     <img src="../../../../assets/pictures/giphy2.gif" width="350">
 
    
 2. Variante:
 
    <details>
-     <summary>Código</summary>
+     <summary>Codigo html</summary>
+
+     ```html
+     <!DOCTYPE html>
+      <html>
+        <head>
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.2/p5.min.js"></script>
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.2/addons/p5.dom.min.js"></script>
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.2/addons/p5.sound.min.js"></script>
+      
+          <!-- Generative Design Dependencies -->
+          <script src="https://cdn.jsdelivr.net/gh/generative-design/Code-Package-p5.js@master/libraries/gg-dep-bundle/gg-dep-bundle.js"></script>
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/opentype.js/0.7.3/opentype.min.js"></script>
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/rita/1.3.11/rita-small.min.js"></script>
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/1.3.6/chroma.min.js"></script>
+          <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous"></script>
+      
+          <script src='Node.js'></script>
+          <script src='Spring.js'></script>
+      
+          <link rel="stylesheet" type="text/css" href="style.css">
+        </head>
+        <body>
+      
+          <!-- Botón para agregar y eliminar nodos -->
+          <button id="addNodeButton">Agregar Nodo</button>
+          <button id="deleteNodeButton">Eliminar Nodo</button>
+      
+      
+          <!-- Script principal -->
+          <script src="sketch.js"></script>
+      
+        </body>
+      </html>
+
+     ```
+
+     
+   </details>
+
+   <details>
+     <summary>Código sketch.js</summary>
      
      ```js
-     
+     'use strict';
+    
+      var sketch = function(p) {
+      var nodes = [];
+      var springs = [];
+      var selectedNode = null; // Nodo activo
+      var draggingNode = null; // Nodo que está siendo arrastrado
+      var nodeDiameter = 16;
+      var nodeNames = [];
+      var nodeCounter = 1; // Contador de nodos creados
+      var inputBox; // Campo de texto para editar nombres
+    
+      p.setup = function() {
+        p.createCanvas(p.windowWidth, p.windowHeight);
+        p.background(255);
+        p.noStroke();
+        
+        // Crear el primer nodo en el centro
+        createNode(p.width / 2, p.height / 2, "Nodo " + nodeCounter);
+    
+        // Crear campo de texto para edición de nombres (junto a los botones)
+        inputBox = p.createInput('');
+        inputBox.position(20, 50); // Colocar cerca de los botones
+        inputBox.size(120);
+        inputBox.attribute("placeholder", "Nombre del nodo");
+    
+        // Evento para actualizar el nombre del nodo cuando se edite el texto
+        inputBox.input(() => {
+          if (selectedNode) {
+            let index = nodes.indexOf(selectedNode);
+            if (index !== -1) {
+              nodeNames[index] = inputBox.value();
+            }
+          }
+        });
+      };
+    
+      p.draw = function() {
+        p.background(255);
+    
+        for (var i = 0; i < nodes.length; i++) {
+          nodes[i].attractNodes(nodes);
+        }
+        for (var i = 0; i < springs.length; i++) {
+          springs[i].update();
+        }
+        for (var i = 0; i < nodes.length; i++) {
+          nodes[i].update();
+        }
+    
+        // Si se está arrastrando un nodo, actualizar su posición con el mouse
+        if (draggingNode) {
+          draggingNode.x = p.mouseX;
+          draggingNode.y = p.mouseY;
+        }
+    
+        // Dibujar resortes
+        p.stroke(0, 130, 164);
+        p.strokeWeight(2);
+        for (var i = 0; i < springs.length; i++) {
+          p.line(springs[i].fromNode.x, springs[i].fromNode.y, springs[i].toNode.x, springs[i].toNode.y);
+        }
+    
+        // Dibujar nodos con nombres
+        p.noStroke();
+        for (var i = 0; i < nodes.length; i++) {
+          if (nodes[i] === selectedNode) {
+            p.fill(255, 0, 0); // Nodo activo en rojo
+          } else {
+            p.fill(255);
+          }
+          p.ellipse(nodes[i].x, nodes[i].y, nodeDiameter, nodeDiameter);
+          p.fill(0);
+          p.ellipse(nodes[i].x, nodes[i].y, nodeDiameter - 4, nodeDiameter - 4);
+    
+          // Mostrar nombre del nodo
+          p.fill(0);
+          p.textAlign(p.CENTER, p.CENTER);
+          p.textSize(12);
+          p.text(nodeNames[i], nodes[i].x, nodes[i].y - 20);
+        }
+      };
+    
+      // Función para crear un nuevo nodo
+      function createNode(x, y, name) {
+        var newNode = new Node(x, y);
+        newNode.minX = nodeDiameter / 2;
+        newNode.minY = nodeDiameter / 2;
+        newNode.maxX = p.width - nodeDiameter / 2;
+        newNode.maxY = p.height - nodeDiameter / 2;
+        newNode.radius = 100;
+        newNode.strength = -5;
+        nodes.push(newNode);
+        nodeNames.push(name);
+      }
+    
+      // Evento para seleccionar un nodo y permitir arrastrarlo
+      p.mousePressed = function() {
+        var maxDist = 20;
+        for (var i = 0; i < nodes.length; i++) {
+          var checkNode = nodes[i];
+          var d = p.dist(p.mouseX, p.mouseY, checkNode.x, checkNode.y);
+          if (d < maxDist) {
+            selectedNode = checkNode; // Seleccionamos el nodo
+            draggingNode = checkNode; // Habilitamos el arrastre
+    
+            // Mostrar el nombre en el campo de texto
+            let index = nodes.indexOf(selectedNode);
+            if (index !== -1) {
+              inputBox.value(nodeNames[index]);
+            }
+            return;
+          }
+        }
+      };
+    
+      // Evento para soltar el nodo cuando se deja de hacer clic
+      p.mouseReleased = function() {
+        draggingNode = null;
+      };
+    
+      // Evento para agregar un nuevo nodo cuando se presiona un botón
+      document.getElementById("addNodeButton").addEventListener("click", function() {
+        if (selectedNode) {
+          nodeCounter++;
+          var newX = selectedNode.x + p.random(-50, 50);
+          var newY = selectedNode.y + p.random(-50, 50);
+          createNode(newX, newY, "Nodo " + nodeCounter);
+    
+          // Crear un resorte entre el nodo seleccionado y el nuevo nodo
+          var newSpring = new Spring(selectedNode, nodes[nodes.length - 1]);
+          newSpring.length = 50;
+          newSpring.stiffness = 1;
+          springs.push(newSpring);
+        }
+      });
+    
+      // Evento para eliminar un nodo seleccionado
+      document.getElementById("deleteNodeButton").addEventListener("click", function() {
+        if (selectedNode && nodes.length > 1) {
+          var index = nodes.indexOf(selectedNode);
+          if (index !== -1) {
+            // Eliminar todos los resortes que conectan con este nodo
+            springs = springs.filter(spring => spring.fromNode !== selectedNode && spring.toNode !== selectedNode);
+            
+            // Eliminar el nodo y su nombre
+            nodes.splice(index, 1);
+            nodeNames.splice(index, 1);
+            
+            // Limpiar el campo de texto
+            inputBox.value('');
+            selectedNode = null;
+          }
+        }
+      });
+    
+    };
+    
+    var myp5 = new p5(sketch);
+
      ```
      
    </details>
    
-    <img src="../../../../assets/pictures/Screen Shot 2025-02-04 at 10.31 AM.png" width="350">
+    <img src="../../../../assets/pictures/giphy3.gif" width="350">
 
 **Aplicación potencial en conexto de entretenimiento digital:**
 
