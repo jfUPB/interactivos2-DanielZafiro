@@ -23,7 +23,11 @@
 
 **1. Descripción del proyecto:** En conmemoración del décimo aniversario de "Candy Crush Soda Saga", King decidió renovar completamente el paisaje sonoro del juego para ofrecer una experiencia más inmersiva y dinámica a sus jugadores. El objetivo principal era modernizar la banda sonora y los efectos de sonido, reflejando la diversidad cultural de su amplia base de usuarios y mejorando la interacción del jugador con el juego. 
 
+[Youtube Video: candy crush soda saga new music](https://www.youtube.com/watch?v=Qf8dpA1AzU4&ab_channel=DevendraAdhikari)
+
 **2. Técnicas generativas:** El equipo de audio implementó un sistema de música interactiva que adapta dinámicamente la banda sonora en función de las acciones del jugador. Utilizando técnicas de diseño generativo, se crearon composiciones musicales que responden en tiempo real a eventos específicos dentro del juego, como movimientos exitosos o la finalización de niveles. Además, se incorporaron instrumentos personalizados inspirados en líquidos para reforzar la temática del juego. 
+
+[Dominique Devoucoux - Directora de audio de King](https://as.com/meristation/reportajes/sonido-y-musica-asi-funciona-el-nuevo-audio-de-candy-crush-soda-saga-el-juego-casual-por-excelencia-r/?utm_source=chatgpt.com)
 
 **3. Análisis crítico:**
 
