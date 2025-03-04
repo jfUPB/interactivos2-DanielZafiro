@@ -373,7 +373,7 @@ Los usuarios dibujan en la pantalla y aparecen palabras en negro hasta que encue
 
 #### Ejemplo 2 "M_6_1_03":
 
-<img src="../../../../assets/pictures/giphy1.gif" width="350">
+<img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExd251eGlyZHVicHNsZHZsczVmb2NuMHh1a2cxcDV6M3dlcWoyYzFyOSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/i0PoIuEF3BQgY93aee/giphy.gif" width="350">
 
 [Link de Generative Design](http://www.generative-gestaltung.de/2/sketches/?02_M/M_6_1_03)
 
@@ -548,6 +548,10 @@ Los usuarios dibujan en la pantalla y aparecen palabras en negro hasta que encue
 - `spring.stiffness`: Rigidez de los resortes.
 
 **Variaciones:**
+
+<img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExeHR2NzM3Y2xneGF2bzc1Y29iY2J2enA0Ym85YmtuMzl3aXZqd29jdSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/KOjd7Tv4gYeabFTY4Y/giphy.gif" width="350">
+
+
 1. Variante:
 
     - Se creó un array `nodeNames[]` para almacenar un nombre único para cada nodo.
@@ -693,7 +697,7 @@ Los usuarios dibujan en la pantalla y aparecen palabras en negro hasta que encue
      
    </details>
    
-     <img src="../../../../assets/pictures/giphy2.gif" width="350">
+     <img src="https://media.giphy.com/media/a1GLBVJ5y8UhgcKGgu/giphy.gif" width="350">
 
    
 3. Variante:
