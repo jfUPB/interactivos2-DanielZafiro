@@ -82,7 +82,7 @@ function windowResized() {
 **Modificación del código:** 
 
 
-<img src="../../../../assets/pictures/Screen Shot 2025-02-04 at 10.39.26 AM.png" width="350">
+<img src="https://raw.githubusercontent.com/jfUPB/interactivos2-DanielZafiro/main/src/assets/pictures/Screen%20Shot%202025-02-04%20at%2010.39.26%20AM.png" width="350">
 
 
 -  Modifiqué la velocidad en la que caen las columnas de números entre min 1 max 3.
@@ -166,9 +166,9 @@ function windowResized() {
 
 ---
 
-#### "Generative Art" por Hamza Khan
+#### 2. "Generative Art" por Hamza Khan
 
-<img src="../../../../assets/pictures/Screen Shot 2025-02-04 at 11.10.58 AM.png" width="350">
+<img src="https://raw.githubusercontent.com/jfUPB/interactivos2-DanielZafiro/main/src/assets/pictures/Screen%20Shot%202025-02-04%20at%2011.10.58%20AM.png" width="350">
 
 [Link de OpenProcessing](https://openprocessing.org/sketch/1917943)
 
@@ -334,7 +334,7 @@ function easeInOutElastic(x) {
 **Modificación del código:** 
 
 
-<img src="../../../../assets/pictures/Screen Shot 2025-02-04 at 1.03.11 PM.png" width="350">
+<img src="https://raw.githubusercontent.com/jfUPB/interactivos2-DanielZafiro/main/src/assets/pictures/Screen%20Shot%202025-02-04%20at%201.03.11%20PM.png" width="350">
 
 
 -  Modifiqué el uso de BlendMode(ADD) para que se pudieran colorear las formas generadas usando RGB en vez de HSL y definiendo los colores. 
