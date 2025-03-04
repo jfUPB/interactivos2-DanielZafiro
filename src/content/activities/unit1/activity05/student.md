@@ -549,10 +549,12 @@ Los usuarios dibujan en la pantalla y aparecen palabras en negro hasta que encue
 
 **Variaciones:**
 
-<img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExeHR2NzM3Y2xneGF2bzc1Y29iY2J2enA0Ym85YmtuMzl3aXZqd29jdSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/KOjd7Tv4gYeabFTY4Y/giphy.gif" width="350">
+
 
 
 1. Variante:
+
+     <img src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExbzI0MnB6YjEwcWUwc3Jzcnhjc2hwbmJrcTg4dThpYmF1NzdocjA4YiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/cozIlRcC5IMxWmH6FL/giphy.gif" width="350">
 
     - Se creó un array `nodeNames[]` para almacenar un nombre único para cada nodo.
     - Cada nodo tiene un nombre asignado en `setup()`, con valores como `"Nodo 1", "Nodo 2"`, etc.
@@ -696,8 +698,10 @@ Los usuarios dibujan en la pantalla y aparecen palabras en negro hasta que encue
      ```
      
    </details>
-   
-     <img src="https://media.giphy.com/media/a1GLBVJ5y8UhgcKGgu/giphy.gif" width="350">
+
+
+
+     <img src="https://raw.githubusercontent.com/jfUPB/interactivos2-DanielZafiro/main/src/assets/pictures/giphy3.gif" width="350">
 
    
 3. Variante:
