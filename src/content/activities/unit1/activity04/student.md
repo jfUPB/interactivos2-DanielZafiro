@@ -1,6 +1,6 @@
 #### 1. "Beijing Lucky Numbers" by Banyapon Poolsawas
 
-<img src="../../../../assets/pictures/Screen Shot 2025-02-04 at 10.40.31 AM.png" width="350">
+<img src="https://raw.githubusercontent.com/jfUPB/interactivos2-DanielZafiro/refs/heads/main/src/assets/pictures/Screen%20Shot%202025-02-04%20at%2010.40.31%20AM.png" width="350">
 
 [Link de OpenProcessing](https://openprocessing.org/sketch/2456871)
 
