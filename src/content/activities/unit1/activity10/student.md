@@ -61,3 +61,10 @@ function mousePressed() {
 
 En mi reconstrucción, cada línea se dibuja en una posición aleatoria, con un ángulo, longitud y color aleatorios.
 
+**Parámetros Controlados:**
+
+- **Posición:** `x` e `y` generados con `random(width)` y `random(height)`.
+- **Ángulo:** angle = `random(TWO_PI)`.
+- **Longitud:** len = `random(20, 150)`.
+- **Color y Grosor:** Utilizando `stroke()` y `strokeWeight()` con valores aleatorios.
+
