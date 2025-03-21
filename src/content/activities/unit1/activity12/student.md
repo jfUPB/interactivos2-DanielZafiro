@@ -6,7 +6,8 @@ El tamaño de cada círculo varía en función de la distancia al mouse: cuanto 
 
 Además, para lograr un efecto de aberración cromática, se dibujan tres círculos por bloque, desplazando ligeramente los canales rojo y azul respecto al canal verde. Todo esto se actualiza en tiempo real, generando una interacción visual dinámica.
 
-<img src="https://github.com/user-attachments/assets/153fb2b3-24fe-40e1-a219-ef0765168c32" width="350">
+<img src="https://github.com/user-attachments/assets/153fb2b3-24fe-40e1-a219-ef0765168c32" width="400">
+
 
 <details>
 
@@ -92,7 +93,9 @@ Además, para lograr un efecto de aberración cromática, se dibujan tres círcu
 
 - Arte Generativo:
     - Transformar imágenes en composiciones abstractas y "pop-up" que cambian en función de la interacción del usuario.
- 
+
+---
+
 > [!TIP]
 > Este punto me quedo en la mente sonando durante dias ya que la propuesta que habia propuesto no me encajaba en la mente que fuera generativa dados los cocneptos que ya hemos venido trabajando.
 >
@@ -107,7 +110,8 @@ Entonces esta es la nueva versión modificada del código quitando la averracion
 
 **Generativo + Reactivo**
 
-<img src="" width="400">
+<img src="https://github.com/user-attachments/assets/7ff8042e-ecb0-4d30-850d-a2026f2d86cd" width="400">
+
 
 <details>
   
@@ -174,8 +178,6 @@ function draw() {
 
 </details>
 
----
-
 **Descripción**
 
 Este código en p5.js carga una imagen ("AstroBoy.jpg") y la redimensiona para reducir la cantidad de píxeles a procesar. La imagen se transforma en un efecto "pixelado" en el que cada bloque se representa como un círculo. El tamaño de cada círculo se modula de dos maneras:
@@ -188,7 +190,6 @@ Este código en p5.js carga una imagen ("AstroBoy.jpg") y la redimensiona para r
 
 El resultado es un efecto visual híbrido, que combina **elementos reactivos** y **generativos** para ofrecer una experiencia dinámica y en constante evolución.
 
----
 
 **Aplicaciones Potenciales**
 
