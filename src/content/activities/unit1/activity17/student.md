@@ -1,4 +1,4 @@
-#### Planificación para la Siguiente Unidad**
+#### Planificación para la Siguiente Unidad
 
 1. **¿Cómo estructuro un marco de diseño que integre de manera coherente los elementos visuales, sonoros e interactivos en un proyecto generativo en tiempo real?**  
      - Esta pregunta me ayudará a definir una metodología integral que permita unir los distintos componentes de mis propuestas.
