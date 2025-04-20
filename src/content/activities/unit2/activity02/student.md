@@ -13,15 +13,18 @@ Al aplicar el método INPUT/OUTPUT de Patrik Hübner a estos tres eventos, vemos
 2. **Procesamiento**  
    - Una extensión (p. ej. Crowd Control) lee el chat y traduce Bits/comandos en triggers de juego.  
    - Lógica de agregación de votos: cada 30 s se cuentan las opciones más votadas.  
-   - Algoritmos de mapeo que convierten el recuento en acciones del juego (p. ej. “activar trueno” o “dar escudo”). citeturn0search0
+   - Algoritmos de mapeo que convierten el recuento en acciones del juego (p. ej. “activar trueno” o “dar escudo”).
 
 3. **Outputs**  
    - Cambios en tiempo real dentro del juego (*Noita*): aparición de efectos visuales, modificación de física, alteración del entorno.  
    - Overlays en pantalla que muestran resultados de la votación y estado de la interacción.
 
-4. **Storytelling**  
-   - Surge una narrativa **emergente**: el futuro del stream se escribe colectivamente.  
-   - Cada fase de votación añade un “capítulo” inesperado al recorrido del streamer, generando un relato único en cada sesión.  
+4. **Storytelling y Conexión narrativa**  
+- Surge una narrativa **emergente**: el futuro del stream se escribe colectivamente.  
+
+   - **Storytelling:** Cada ronda de votos funciona como un “capítulo” que los espectadores escriben juntos, generando una historia emergente y única.
+
+   - **Conexión narrativa:** Inputs (votos) → Procesamiento (agregación y mapeo) → Outputs (acciones en el juego) se enlazan en una secuencia coherente: el público se convierte en autor colectivo de la trama del stream, ofreciendo un relato interactivo en directo. Esto refleja cómo un buen storytelling inserta al usuario en el flujo narrativo, transformándolo de espectador pasivo a protagonista activo, y al streamer en un explorador de nuevas alternativas narrativas dentro del juego.
 
 ---
 
@@ -35,16 +38,19 @@ Al aplicar el método INPUT/OUTPUT de Patrik Hübner a estos tres eventos, vemos
 
 2. **Procesamiento**  
    - Un sistema de visión computacional interpreta posiciones y velocidades.  
-   - Mapeo de parámetros de movimiento a valores HSB para los LEDs (hue, brillo, saturación). citeturn0search1  
+   - Mapeo de parámetros de movimiento a valores HSB para los LEDs (hue, brillo, saturación). 
    - Lógica de “campo reactivo”: un visitante genera un gradiente de color que se propaga en la instalación.
 
 3. **Outputs**  
    - Secuencias de luz que fluyen y cambian en los muros y el suelo, respondiendo al desplazamiento de las personas.  
    - En algunos espacios, proyección de formas y reflejos en el agua que evolucionan según la interacción.
 
-4. **Storytelling**  
-   - La instalación se convierte en un **paisaje narrativo** donde cada visitante es protagonista.  
-   - La “historia” se escribe con trazos de luz: pasos, agrupaciones y ritmos colectivos definen la experiencia sensorial.  
+4. **Storytelling y Conexión narrativa**  
+- La instalación se convierte en un **paisaje narrativo** donde cada visitante es protagonista.  
+
+   - **Storytelling:** El espacio se narra como un ecosistema vivo, donde cada paso escribe un rastro de color.
+
+   - **Conexión narrativa:** Inputs (movimiento) → Procesamiento (mapeo de color) → Outputs (luces reactivas) construyen un relato sensorial continuo: los visitantes co-escriben la trama lumínica del espacio, haciendo de su propio recorrido el hilo conductor de la narrativa
 
 ---
 
@@ -58,14 +64,17 @@ Al aplicar el método INPUT/OUTPUT de Patrik Hübner a estos tres eventos, vemos
 
 2. **Procesamiento**  
    - El entorno Flok ejecuta el código de Strudel (audio) y Hydra (visuales) en tiempo real.  
-   - Funciones de generación algorítmica que toman las variables del código (tempo, semilla aleatoria) y producen patrones. citeturn0search0  
+   - Funciones de generación algorítmica que toman las variables del código (tempo, semilla aleatoria) y producen patrones. 
    - Filtrado y mezcla: líneas de código se combinan para modular la textura sonora y las capas gráficas.
 
 3. **Outputs**  
    - Flujo de audio electrónico emergente con texturas cambiantes y evolutivas.  
    - Visuales en pantalla (formas geométricas "sensibles" al sonido) sincronizados con el sonido.  
 
-4. **Storytelling**  
-   - El set se presenta como un **diálogo codificado**: cada bloque de código narra un “verso” musical único en vivo.  
-   - La evolución del código refleja una historia de exploración sonora, donde el artista y el público co-crean el viaje.  
+4. **Storytelling y Conexión narrativa**  
+- El set se presenta como un **diálogo codificado**: cada bloque de código narra un “verso” musical único en vivo.  
+   
+   - **Storytelling:** Cada bloque de código actúa como un “verso” de una composición incesante, contando la evolución sonora.
+ 
+   - **Conexión narrativa:** Inputs (código y chat) → Procesamiento (ejecución algorítmica) → Outputs (audio/visual) se enlazan en un relato codificado: los artistas y la audiencia co-crean un viaje musical, donde cada modificación de código avanza la historia sonora
 
