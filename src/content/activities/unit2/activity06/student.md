@@ -71,4 +71,3 @@ Presento tres propuestas de eventos en vivo, cada una pensada desde el enfoque d
 - La instalación invita a la contemplación: cada quien recibe la frase que "necesita", y su andar se convierte en lectura activa.  
 - La experiencia es diferente para cada persona, pero todas forman parte de un mural literario compartido.
 
----
