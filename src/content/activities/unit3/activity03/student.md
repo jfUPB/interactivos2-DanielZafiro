@@ -21,8 +21,30 @@
 
 - una vez instalado el `npm` se podrá encender el servidor localmente con el comando `npm start` mediante una linea de codigo en el script del servidor `server.js` se imprime en consola que el servidor esta escuchando a la espera de clientes que se conecten a el mediante el puerto asignado en este caso `http://localhost:3000` el cual haciendo pruebas solo funciona en el computador localmente
   
-  <img src="https://github.com/user-attachments/assets/73088bfc-cd27-4485-9348-2f175b92d913" width=800>
-
-
-
   <img src="https://i.imgur.com/iKdGU2T.gif" width=800>
+
+- Hay una manera de hacer que estos accesos locales de los clientes puedan hacerse remotamente y es con los tuneles de puerto que es un servicio de Microsoft en Github para activarlos hay que abrirlos enviarlos y esta es la descripción:
+
+  ![image](https://github.com/user-attachments/assets/e41b1dea-e399-4f39-bb7e-dec5051d6607)
+  
+  ![image](https://github.com/user-attachments/assets/d96346a3-ad54-4bd2-85ab-e0fea45dbfa1)
+
+- En la pestaña de puertos se creó un enlace al puerto 3000 desde el cual puede ser abierto en cualquier otro dispositivo en diferente conexión wifi siempre y cuando se inicie sesión en github por la privacidad establecida en privado, es una manera de amplificar la experimentación entre los clientes y servidor
+
+  ![image](https://github.com/user-attachments/assets/f69edcbf-772a-4c07-b5d0-834814ed424b)
+
+  ```markdown
+  https://dr71n378-3000.use2.devtunnels.ms/ (Tunel del puerto 3000 local creado y conectado a GitHub)
+  https://dr71n378-3000.use2.devtunnels.ms/desktop (Tunel de acceso para el cliente desktop)
+  https://dr71n378-3000.use2.devtunnels.ms/mobile (Tunel de acceso para el cliente mobile)
+  ```
+
+- En la `Terminal > OUTPUT > Port Forwarding` Podemos observar lo que ocurrio cuando reenviamos el puerto 3000 reenvia el puerto local a traves del servicio de tuneles de desarrollo y lo establece privado.
+
+  ![image](https://github.com/user-attachments/assets/99549602-a06d-4566-88e0-cf3cd0608f8f)
+
+- A continuación se puede observar como estoy controlando el circulo rojo mediante los enlaces de los tuneles del puerto 3000 mediante el buscador del iPhone utilizando los datos moviles y no estando conectado al mismo wifi, 
+
+  <img src="https://i.imgur.com/EOzuC1S.gif" width=800>
+
+
