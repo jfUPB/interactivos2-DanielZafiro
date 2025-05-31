@@ -1,4 +1,4 @@
-#### Documentación de los pasos para ejecutar la aplicación y funcionamiento
+#### Pruebas Locales
 
 > [!NOTE]
 > Para este actividad realicé todo el proceso desde Windows
