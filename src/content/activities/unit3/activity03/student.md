@@ -47,4 +47,9 @@
 
   <img src="https://i.imgur.com/EOzuC1S.gif" width=800>
 
+- Para detener el servidor en la terminal Bash `ctrl + c` para terminar y para volver a encender el servidor con `npm start`
+- Tambien es importante cerrar el tunel del puerto local mientras no se esté utilizando:
+  
+  <img src="https://i.imgur.com/FUNnh4S.gif" width=500>
+
 
