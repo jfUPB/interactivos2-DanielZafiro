@@ -18,7 +18,9 @@
 
 - Se me ocurrió que enviar datos en binario en lugar de texto JSON como esta implementado actualmente sería algo muy util para mejorar el rendimiento de la comunicación, sin embargo esto tiene ciertas implicaciones, una de ellas esque no es practico a la hora de realizar pruebas y ver en consola cual es el contenido del mensaje que se esta emitiendo, pero una vez todas las pruebas hayan sido realizadas con exito y tenga que conectar a muchos clientes el uso de la comunicacion en binario seria mucho mejor por rendimiento.
 
-- ¿Qué significa enviar datos en binario con `socket.io`?
+<details>
+  <summary>¿Qué significa enviar datos en binario con socket.io? (Click aquí)</summary>
+
   - Socket.IO permite enviar tipos de datos binarios como:
     - `ArrayBuffer`
     - `Buffer` (en Node.js)
@@ -253,11 +255,79 @@ function draw() {
 > 
 > <img src="https://i.imgur.com/TRD5of2.png" width="800">
 
+<details>
+  <summary>Solución al error</summary>
 
+```
+RangeError: start offset of Float32Array should be a multiple of 4
+```
 
+significa que el buffer binario recibido no está alineado correctamente para ser leído como un `Float32Array`, es decir, el inicio del arreglo (`byteOffset`) **no cae en una dirección múltiplo de 4**, lo cual es obligatorio para `Float32Array`.
 
-🧪 **Resultado**
+- Solución recomendada:
+  - Asegúrarse de que el **cliente móvil** esté enviando un `Float32Array.buffer` directamente (no un `Uint8Array` o similar!), y que **el servidor no esté transformando ni reinterpretando** esos datos.
+
+Así sería el flujo corregido y seguro:
+
+<details>
+  <summary>CLIENTE MOBILE</summary>
+
+ emitiendo binario correctamente
+
+```js
+function touchMoved() {
+    const data = new Float32Array([mouseX, mouseY]);
+    socket.emit('message', data.buffer); // ✅ Se envía el ArrayBuffer directamente
+    return false;
+}
+```
+</details>
+
+<details>
+  <summary>Servidor</summary>
+
+manejo correcto del buffer binario
+
+```js
+io.on('connection', (socket) => {
+    console.log('New client connected');
+
+    socket.on('message', (data) => {
+        if (data instanceof ArrayBuffer) {
+            try {
+                // No usar offset ni longitud personalizada
+                const floatData = new Float32Array(data);
+                console.log(`Received binary: x=${floatData[0]} y=${floatData[1]}`);
+
+                // Retransmitir el mismo buffer sin modificar
+                socket.broadcast.emit('message', data);
+            } catch (e) {
+                console.error("Error parsing binary data:", e);
+            }
+        } else {
+            console.log("Non-binary message:", data);
+        }
+    });
+
+    socket.on('disconnect', () => {
+        console.log('Client disconnected');
+    });
+});
+```
+</details>
+
+</details>
+
+- **¿Por qué funciona esta solución?**
+    - `new Float32Array(data)` es más seguro que pasar manualmente `byteOffset` y `byteLength` si no tienes garantías de alineación.
+    - Esto funciona bien **si el emisor usa `Float32Array(buffer)` directamente**, como hicimos en el `touchMoved()` del móvil.
+      
+</details>
+
+🧪 **Resultado emitiendo y recibiendo en binario**
 
 - Flujo completo de datos en binario, desde el celular hasta el escritorio.
 - Menor peso que usar JSON.
 - Alta eficiencia para enviar datos de sensores, gestos o coordenadas.
+
+  <img src="https://i.imgur.com/OVoaDoq.gif" width="800">
