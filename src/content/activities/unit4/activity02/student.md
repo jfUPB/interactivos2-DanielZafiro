@@ -132,49 +132,163 @@ function gotStream(stream, id) {
 
 ---
 
-<img src="https://i.imgur.com/ZF.gif" width="500">
+<img src="https://i.imgur.com/8TE4y63.gif" width="500">
 
-**Compartir el audio**
+**Compartir el audio y video en tiempo real entre navegadores usando WebRTC**
 
-Este ejemplo transmite el contenido del canvas a otros usuarios en la misma sala.
+Este ejemplo tiene como objetivo experimentar con la biblioteca `p5LiveMedia` para establecer una conexión directa peer-to-peer (P2P) entre dos navegadores y así compartir audio y video en tiempo real usando el protocolo **WebRTC**.
+
 
 <details>
   <summary>Detalles (click aquí)</summary>
 
 
 
+- ⚙️ **¿Cómo funciona?**
+  * Se utiliza `createCapture({ video: true, audio: true })` para obtener acceso a la cámara y al micrófono del usuario.
+  * Se instancia un objeto `p5LiveMedia` indicando:
+    * El sketch de p5 (`this`)
+    * El tipo de stream (`"CAPTURE"`)
+    * El stream de audio/video capturado
+    * Un nombre de sala compartido para que los pares se encuentren.
+  * Al recibir un stream remoto, el evento `'stream'` permite mostrar en el canvas el video del otro usuario.
+
+
+🧪 **Código base (`sketch.js`)**
+
+```javascript
+let myVideo;
+let otherVideo;
+let livemedia;
+
+function setup() {
+  createCanvas(640, 480);
+
+  myVideo = createCapture({ video: true, audio: true }, function(stream) {
+    livemedia = new p5LiveMedia(this, "CAPTURE", stream, "mi_sala_videochat");
+    livemedia.on('stream', gotStream);
+  });
+
+  myVideo.elt.muted = true;  // evitar feedback de audio
+  myVideo.hide();            // opcional: ocultar video local en HTML
+}
+
+function gotStream(stream, id) {
+  console.log("Recibiendo stream de:", id);
+
+  otherVideo = stream; // ya es un objeto tipo video
+}
+
+function draw() {
+  background(0);
+
+  if (myVideo) {
+    image(myVideo, 0, 0, width / 2, height);
+    text("📷 Mi video", 10, 20);
+  }
+
+  if (otherVideo) {
+    image(otherVideo, width / 2, 0, width / 2, height);
+    text("🌐 Remoto", width / 2 + 10, 20);
+  }
+}
+```
+
+
+- ✅ **Consideraciones importantes**
+  * Ambos usuarios deben abrir el sketch en ventanas distintas y **usar el mismo nombre de sala** para conectarse (por ejemplo, `"mi_sala_videochat"`).
+  * El navegador puede pedir permisos para usar la cámara y el micrófono.
+  * `myVideo.elt.muted = true` es esencial para evitar retroalimentación de sonido (feedback).
+  * La conexión se establece mediante el servidor de señalización público de `p5LiveMedia` (`https://p5livemedia.itp.io`).
+  * No se requiere servidor backend propio.
+
+
+- 🔍 **Hallazgos**
+  * La biblioteca `p5LiveMedia` simplifica notablemente la implementación de WebRTC en proyectos creativos con `p5.js`.
+  * El callback de `createCapture` es crucial: **solo desde ahí se debe inicializar `p5LiveMedia`** para que funcione correctamente.
+  * La transmisión de video es fluida en redes locales y relativamente estable usando el servidor de señalización público.
+  * Es posible combinar esta funcionalidad con otras capacidades interactivas de `p5.js` (como canvas compartido o envío de datos).
 
 
 </details>
 
+
 ---
 
-<img src="https://i.imgur.com/ZF.gif" width="500">
+<img src="https://i.imgur.com/gcLpdMW.gif" width="500">
 
-**Compartir el video**
+**Compartir datos entre navegadores con WebRTC (p5LiveMedia)**
 
-Este ejemplo transmite el contenido del canvas a otros usuarios en la misma sala.
+Este ejemplo demuestra cómo usar p5LiveMedia para compartir datos personalizados (en este caso, coordenadas del mouse) entre dos navegadores conectados por WebRTC, permitiendo sincronizar comportamientos o representaciones visuales en tiempo real.
 
 <details>
   <summary>Detalles (click aquí)</summary>
 
+⚙️ **¿Cómo funciona?**
+  
+* Se crea una instancia de `p5LiveMedia` con el tipo `"DATA"` y un nombre de sala.
+* Cada vez que se mueve el mouse, se envían sus coordenadas a los otros pares.
+* Se recibe el mensaje en formato JSON y se actualizan variables para representar visualmente la interacción del otro usuario.
 
 
+🧪 **Código base (`sketch.js`)**
+
+```javascript
+let p5lm;
+let otherX = 0;
+let otherY = 0;
+
+function setup() {
+  createCanvas(600, 400);
+  background(255);
+
+  // Inicializar LiveMedia para datos
+  p5lm = new p5LiveMedia(this, "DATA", null, "sala_datos_compartidos");
+
+  // Evento al recibir datos
+  p5lm.on('data', gotData);
+}
+
+function draw() {
+  background(240);
+
+  // Dibujo local
+  fill(0, 100, 255);
+  ellipse(mouseX, mouseY, 50, 50);
+  text("Yo", mouseX + 30, mouseY);
+
+  // Dibujo del otro usuario
+  fill(255, 0, 0);
+  ellipse(otherX, otherY, 50, 50);
+  text("Otro usuario", otherX + 30, otherY);
+}
+
+function mouseMoved() {
+  // Enviar las coordenadas en formato JSON
+  let dataToSend = { x: mouseX, y: mouseY };
+  p5lm.send(JSON.stringify(dataToSend));
+}
+
+function gotData(data, id) {
+  // Parsear los datos recibidos
+  let parsed = JSON.parse(data);
+  otherX = parsed.x;
+  otherY = parsed.y;
+}
+```
 
 
-</details>
+- ✅ **Consideraciones importantes**
+  * Solo se permite enviar **strings**, por eso se usa `JSON.stringify()` para enviar objetos complejos.
+  * El método `p5lm.send(data)` envía los datos a todos los otros pares conectados en la misma sala.
+  * Se recomienda siempre usar `try-catch` al parsear JSON si se espera mayor robustez.
+  * No se usa `createCapture()` ni video en este ejemplo: el canal WebRTC está dedicado exclusivamente al **canal de datos**.
 
----
 
-<img src="https://i.imgur.com/ZF.gif" width="500">
-
-**Compartir datos**
-
-Este ejemplo transmite el contenido del canvas a otros usuarios en la misma sala.
-
-<details>
-  <summary>Detalles (click aquí)</summary>
-
+- 🔍 **Hallazgos**
+  * `p5LiveMedia` permite establecer un canal de datos confiable y en tiempo real entre navegadores.
+  * Es ideal para enviar coordenadas, estados de objetos, mensajes de texto o cualquier información serializada como string.
+  * Permite diseñar experiencias colaborativas como juegos multijugador, control distribuido de animaciones o sistemas interactivos conectados.
 
 
 
