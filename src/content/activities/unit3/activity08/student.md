@@ -39,3 +39,7 @@ Principalmente, una mala priorización del tiempo. Aunque tenía claro lo que de
 - Una arquitectura más robusta para manejar estados compartidos, múltiples clientes, sincronización y posibles conflictos.
 
 - Conocer cómo escalar estas experiencias y preparar los proyectos para un uso real fuera del entorno local.
+
+---
+
+Espero que con la unidad 4 (WebRTC) y lo que ya aprendí de socket.io, pueda integrar mejor los conceptos de entrada (input), procesamiento (procesamiento de datos compartidos) y salida (render visual o auditiva) en experiencias interactivas colaborativas.
