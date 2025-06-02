@@ -322,7 +322,11 @@ io.on('connection', (socket) => {
     - `new Float32Array(data)` es más seguro que pasar manualmente `byteOffset` y `byteLength` si no tienes garantías de alineación.
     - Esto funciona bien **si el emisor usa `Float32Array(buffer)` directamente**, como hicimos en el `touchMoved()` del móvil.
 
-Así quedarian los scripts corregifos:
+</details>
+
+🧪 **Resultado emitiendo y recibiendo en binario**
+
+Así quedarian los scripts:
 
 <details>
   <summary>CLiente Mobile Sketch.js</summary>
@@ -450,10 +454,6 @@ function draw() {
 
 ```
 </details>
-
-</details>
-
-🧪 **Resultado emitiendo y recibiendo en binario**
 
 - Flujo completo de datos en binario, desde el celular hasta el escritorio.
 - Menor peso que usar JSON.
