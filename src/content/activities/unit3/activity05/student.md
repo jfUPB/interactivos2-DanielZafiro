@@ -321,7 +321,136 @@ io.on('connection', (socket) => {
 - **¿Por qué funciona esta solución?**
     - `new Float32Array(data)` es más seguro que pasar manualmente `byteOffset` y `byteLength` si no tienes garantías de alineación.
     - Esto funciona bien **si el emisor usa `Float32Array(buffer)` directamente**, como hicimos en el `touchMoved()` del móvil.
-      
+
+Así quedarian los scripts corregifos:
+
+<details>
+  <summary>CLiente Mobile Sketch.js</summary>
+  
+```js
+let socket;
+
+function setup() {
+    createCanvas(300, 400);
+    background(220);
+    socket = io();
+
+    socket.on('connect', () => {
+        console.log('Connected to server');
+    });
+
+    socket.on('disconnect', () => {
+        console.log('Disconnected from server');
+    });
+
+    socket.on('connect_error', (error) => {
+        console.error('Socket.IO error:', error);
+    });
+}
+
+function draw() {
+    background(220);
+    fill(255, 128, 0);
+    textAlign(CENTER, CENTER);
+    textSize(24);
+    text('Touch to move the circle', width / 2, height / 2);
+}
+
+function touchMoved() {
+    const data = new Float32Array([mouseX, mouseY]);
+    socket.emit('message', data.buffer);
+
+    //socket.emit('message', buffer); // Envío binario
+    return false; // Previene el scroll en móviles
+}
+
+```
+</details>
+
+<details>
+  <summary>Server server.js</summary>
+  
+```js
+const express = require('express');
+const http = require('http');
+const socketIO = require('socket.io');
+
+const app = express();
+const server = http.createServer(app); 
+const io = socketIO(server); 
+const port = 3000;
+
+app.use(express.static('public'));
+
+io.on('connection', (socket) => {
+    console.log('New client connected');
+
+    socket.on('message', (data) => {
+            const floatData = new Float32Array(data);
+            console.log(`Received binary coordinates:`, floatData);
+
+            // Reenviar a otros clientes como binario
+            socket.broadcast.emit('message', data);
+    });
+
+    socket.on('disconnect', () => {
+        console.log('Client disconnected');
+    });
+});
+
+server.listen(port, () => {
+    console.log(`Server is listening on http://localhost:${port}`);
+});
+
+```
+</details>
+
+<details>
+  <summary>Cliente Desktop Sketch.js</summary>
+  
+```js
+let socket;
+let circleX = 200;
+let circleY = 200;
+
+function setup() {
+    createCanvas(300, 400);
+    background(220);
+    socket = io();
+
+    socket.on('connect', () => {
+        console.log('Connected to server');
+    });
+
+    socket.on('message', (data) => {
+        if (data instanceof ArrayBuffer) {
+            const floatData = new Float32Array(data);
+            circleX = floatData[0];
+            circleY = floatData[1];
+            console.log(`Received binary data: x=${circleX}, y=${circleY}`);
+        } else {
+            console.log("Received non-binary data:", data);
+        }
+    });
+
+    socket.on('disconnect', () => {
+        console.log('Disconnected from server');
+    });
+
+    socket.on('connect_error', (error) => {
+        console.error('Socket.IO error:', error);
+    });
+}
+
+function draw() {
+    background(220);
+    fill(255, 0, 0);
+    ellipse(circleX, circleY, 50, 50);
+}
+
+```
+</details>
+
 </details>
 
 🧪 **Resultado emitiendo y recibiendo en binario**
