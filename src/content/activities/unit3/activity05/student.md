@@ -324,9 +324,15 @@ io.on('connection', (socket) => {
 
 </details>
 
+<img src="https://i.imgur.com/OVoaDoq.gif" width="800">
+
 🧪 **Resultado emitiendo y recibiendo en binario**
 
-Así quedarian los scripts:
+- Flujo completo de datos en binario, desde el celular hasta el escritorio.
+- Menor peso que usar JSON.
+- Alta eficiencia para enviar datos de sensores, gestos o coordenadas.
+
+**Así quedarian los scripts:**
 
 <details>
   <summary>CLiente Mobile Sketch.js</summary>
@@ -455,8 +461,405 @@ function draw() {
 ```
 </details>
 
-- Flujo completo de datos en binario, desde el celular hasta el escritorio.
-- Menor peso que usar JSON.
-- Alta eficiencia para enviar datos de sensores, gestos o coordenadas.
+---
 
-  <img src="https://i.imgur.com/OVoaDoq.gif" width="800">
+#### Experimento 3:
+
+- modificar los datos que estamos enviando... entonces para este experimento simplemente quise cambiar el color del circulo con cada nueva posicion, para esto tuve que modificar el código para que el cliente mobile envíe un color aleatorio (en formato RGB) junto con las coordenadas, y que el cliente desktop lo reciba y lo use para pintar el círculo.
+
+<img src="https://i.imgur.com/QFUzFI7.gif" width="800">
+
+<details>
+  <summary>Cliente mobile</summary>
+
+se agrega una función para generar colores aleatorios y envía r, g, b:
+```js
+let socket;
+let lastTouchX = null;
+let lastTouchY = null;
+const threshold = 5;
+
+function setup() {
+    createCanvas(300, 400);
+    background(220);
+    socket = io();
+
+    socket.on('connect', () => {
+        console.log('Connected to server');
+    });
+
+    socket.on('disconnect', () => {
+        console.log('Disconnected from server');
+    });
+
+    socket.on('connect_error', (error) => {
+        console.error('Socket.IO error:', error);
+    });
+}
+
+function draw() {
+    background(220);
+    fill(255, 128, 0);
+    textAlign(CENTER, CENTER);
+    textSize(24);
+    text('Touch to move', width / 2, height / 2);
+}
+
+function touchMoved() {
+    if (socket && socket.connected) {
+        let dx = abs(mouseX - lastTouchX);
+        let dy = abs(mouseY - lastTouchY);
+
+        if (dx > threshold || dy > threshold || lastTouchX === null) {
+            let touchData = {
+                type: 'touch',
+                x: mouseX,
+                y: mouseY,
+                r: random(255),
+                g: random(255),
+                b: random(255)
+            };
+            socket.emit('message', JSON.stringify(touchData));
+
+            lastTouchX = mouseX;
+            lastTouchY = mouseY;
+        }
+    }
+    return false;
+}
+
+```
+</details>
+
+<details>
+  <summary>Cliente desktop</summary>
+
+se agrega la recepción de color
+```js
+let socket;
+let circleX = 200;
+let circleY = 200;
+let circleColor = [255, 0, 0];
+
+function setup() {
+    createCanvas(300, 400);
+    background(220);
+    socket = io();
+
+    socket.on('connect', () => {
+        console.log('Connected to server');
+    });
+
+    socket.on('message', (data) => {
+        try {
+            let parsedData = JSON.parse(data);
+            if (parsedData.type === 'touch') {
+                circleX = parsedData.x;
+                circleY = parsedData.y;
+                if (parsedData.r !== undefined && parsedData.g !== undefined && parsedData.b !== undefined) {
+                    circleColor = [parsedData.r, parsedData.g, parsedData.b];
+                }
+            }
+        } catch (e) {
+            console.error("Error parsing received JSON:", e);
+        }
+    });
+
+    socket.on('disconnect', () => {
+        console.log('Disconnected from server');
+    });
+
+    socket.on('connect_error', (error) => {
+        console.error('Socket.IO error:', error);
+    });
+}
+
+function draw() {
+    background(220);
+    fill(circleColor[0], circleColor[1], circleColor[2]);
+    ellipse(circleX, circleY, 50, 50);
+}
+
+```
+</details>
+
+- No es necesario modificar el server.js puesto que solo retransmite el mensaje tal cual y el procesamiento(intepretacion) lo hace cada browser
+
+---
+
+#### Experimento 4:
+
+- Notar el `type` de mensaje que se envía y hacer pruebas para entenderlo, eliminando el type `touch`...
+
+- **¿Qué representa `"type": "touch"`?**
+    - Ese `"type"` es **una etiqueta** que tú mismo defines para que el receptor sepa **cómo interpretar el contenido del mensaje**. En el caso actual:
+
+    ```js
+    {
+      type: "touch",
+      x: 123,
+      y: 456
+    }
+    ```
+
+→ Significa: "Esto es un mensaje que trae las coordenadas de un toque en pantalla".
+
+<details>
+  <summary>Cuando usar o no type (Click aquí)</summary>
+  
+- **¿Por qué no hay más `"type"` por ahora?**
+    - Porque **solo estás enviando un tipo de información**: la posición del toque (x, y). Entonces **no necesitamos más tipos**, porque todo lo que llega se interpreta igual.
+
+
+- **¿Cuándo se necesita más de un `"type"`?**
+    - Cuando el servidor o el receptor deben **distinguir entre diferentes tipos de acciones o efectos**, por ejemplo:
+    
+    ```js
+    // Mensaje 1: posición de toque
+    {
+      type: "touch",
+      x: 100,
+      y: 200
+    }
+    
+    // Mensaje 2: cambio de color
+    {
+      type: "color",
+      r: 255,
+      g: 0,
+      b: 0
+    }
+    
+    // Mensaje 3: mensaje de texto
+    {
+      type: "chat",
+      text: "Hola desde el móvil"
+    }
+    ```
+
+Cada uno de estos tiene un propósito **diferente**. Si los envías todos por el mismo evento `"message"`, **el campo `type` es necesario** para que el receptor sepa qué hacer con cada uno.
+
+
+- **Alternativa: usar eventos personalizados**
+  - En lugar de tener un solo canal `"message"` y revisar `"type"`, puedes **crear eventos específicos**:
+
+    ```js
+    socket.emit("touch", { x: 100, y: 200 });
+    socket.emit("colorChange", { r: 255, g: 0, b: 0 });
+    socket.emit("chatMessage", { text: "Hola desde el móvil" });
+    ```
+
+    Y en el receptor:
+    
+    ```js
+    socket.on("touch", handleTouch);
+    socket.on("colorChange", handleColor);
+    socket.on("chatMessage", handleChat);
+    ```
+
+Esto elimina la necesidad del campo `"type"` por completo, porque el **evento ya dice qué tipo de mensaje es**.
+
+</details>
+
+| Caso                                                   | Necesario o no                                | 
+| ------------------------------------------------------ | --------------------------------------------- |
+| ¿Enviás solo una cosa?                                 | No necesitas `"type"`                         |
+| ¿Enviás muchas cosas distintas por el mismo canal?     | Necesitás `"type"`                            |
+| ¿Preferís eventos separados para cada tipo de mensaje? | No necesitás `"type"`, usás nombres distintos |
+
+---
+
+**Pongamoslo a prueba usando el experimento 3:**
+
+- integrando dos tipos de mensajes en el sistema actual: "touch" y "color".
+  - Implica modificar el cliente móvil para enviar dos tipos de mensajes y el cliente de escritorio para interpretar los mensajes según el `type`
+
+<img src="https://i.imgur.com/MB1Ybwt.gif" width="800">
+
+<details>
+  <summary>Cliente mobile</summary>
+
+```js
+let socket;
+let lastTouchX = null;
+let lastTouchY = null;
+const threshold = 5;
+
+function setup() {
+    createCanvas(300, 400);
+    background(220);
+
+    socket = io();
+
+    socket.on('connect', () => {
+        console.log('Connected to server');
+    });
+
+    socket.on('disconnect', () => {
+        console.log('Disconnected from server');
+    });
+
+    socket.on('connect_error', (error) => {
+        console.error('Socket.IO error:', error);
+    });
+}
+
+function draw() {
+    background(220);
+    fill(255, 128, 0);
+    textAlign(CENTER, CENTER);
+    textSize(18);
+    text('Toca para mover\nPresiona una tecla para color', width / 2, height / 2);
+}
+
+function touchMoved() {
+    if (socket && socket.connected) {
+        let dx = abs(mouseX - lastTouchX);
+        let dy = abs(mouseY - lastTouchY);
+
+        if (dx > threshold || dy > threshold || lastTouchX === null) {
+            let touchData = {
+                type: 'touch',
+                x: mouseX,
+                y: mouseY
+            };
+            socket.emit('message', JSON.stringify(touchData));
+
+            lastTouchX = mouseX;
+            lastTouchY = mouseY;
+        }
+    }
+    return false;
+}
+
+function keyPressed() {
+    if (socket && socket.connected) {
+        // Cambiar aleatoriamente el color
+        let r = floor(random(0, 256));
+        let g = floor(random(0, 256));
+        let b = floor(random(0, 256));
+
+        let colorData = {
+            type: 'color',
+            r: r,
+            g: g,
+            b: b
+        };
+
+        socket.emit('message', JSON.stringify(colorData));
+    }
+}
+
+```
+</details>
+
+el server.js queda igual porque se encarga de reenviar los mensajes
+
+<details>
+  <summary>Cliente desktop</summary>
+
+```js
+let socket;
+let circleX = 200;
+let circleY = 200;
+let circleColor = [255, 0, 0]; // color inicial rojo
+
+function setup() {
+    createCanvas(300, 400);
+    background(220);
+
+    socket = io();
+
+    socket.on('connect', () => {
+        console.log('Connected to server');
+    });
+
+    socket.on('message', (data) => {
+        console.log(`Received message: ${data}`);
+        try {
+            let parsedData = JSON.parse(data);
+
+            if (parsedData.type === 'touch') {
+                circleX = parsedData.x;
+                circleY = parsedData.y;
+            } else if (parsedData.type === 'color') {
+                circleColor = [parsedData.r, parsedData.g, parsedData.b];
+            }
+        } catch (e) {
+            console.error("Error parsing received JSON:", e);
+        }
+    });
+
+    socket.on('disconnect', () => {
+        console.log('Disconnected from server');
+    });
+
+    socket.on('connect_error', (error) => {
+        console.error('Socket.IO error:', error);
+    });
+}
+
+function draw() {
+    background(220);
+    fill(circleColor[0], circleColor[1], circleColor[2]);
+    ellipse(circleX, circleY, 50, 50);
+}
+
+```
+</details>
+
+---
+
+#### Aprendizajes experimentando
+
+<details>
+  <summary>Aprendizajes</summary>
+
+**Experimento 1: Ejecutar dos clientes en el mismo computador**
+
+**¿Qué hice?**  
+Corrí la aplicación en dos navegadores diferentes (uno como cliente móvil y otro como cliente de escritorio), ambos desde el mismo computador.
+
+**¿Qué aprendí?**
+- Aprendí que puedo simular múltiples clientes sin necesidad de usar dispositivos diferentes.
+- Descubrí cómo ver en tiempo real los mensajes enviados y recibidos en la consola del navegador y del servidor.
+- Confirmé cómo `socket.broadcast.emit()` permite enviar mensajes a todos los clientes excepto al emisor.
+
+---
+
+**Experimento 2: Cambiar el tipo de mensajes emitidos**
+
+**¿Qué hice?**  
+Modifiqué el tipo de datos emitidos por el cliente, probando diferentes estructuras, incluyendo la posibilidad de enviar datos binarios (aunque no lo mantuve por ahora).
+
+**¿Qué aprendí?**
+- Entendí que no es necesario enviar datos como JSON con `JSON.stringify()`, también puedo enviar directamente objetos.
+- Aprendí que enviar datos en binario es más eficiente en ciertos casos, pero requiere cuidado con la alineación de memoria (por ejemplo, en el uso de `Float32Array`).
+- Confirmé que puedo personalizar el mensaje según lo que necesite enviar, manteniendo claridad en el receptor.
+
+---
+
+**Experimento 3: Modificar los datos enviados**
+
+**¿Qué hice?**  
+Agregué un nuevo conjunto de datos al mensaje, específicamente valores RGB para modificar el color del círculo en el cliente de escritorio.
+
+**¿Qué aprendí?**
+- Aprendí a extender el mensaje original para transmitir múltiples parámetros a la vez.
+- Practiqué cómo estructurar mensajes más completos (por ejemplo, con propiedades `x`, `y`, `r`, `g`, `b`).
+- Descubrí cómo condicionar el receptor para que reaccione solo cuando se reciben ciertos datos.
+
+---
+
+**Experimento 4: Eliminar el campo `type` y modificar el mensaje**
+
+**¿Qué hice?**  
+Eliminé el campo `"type"` en el mensaje emitido desde el cliente móvil y observé cómo esto afectaba la lógica del receptor.
+
+**¿Qué aprendí?**
+- Comprendí que el campo `type` es clave cuando se manejan múltiples tipos de mensajes.
+- Aprendí que, sin este campo, el receptor pierde contexto y puede interpretar mal los datos o fallar al procesarlos.
+- Valoré la importancia de mantener mensajes estructurados y autoexplicativos para facilitar la escalabilidad del sistema.
+
+
+</details>
