@@ -92,3 +92,16 @@ Interacciones visuales proyectadas colectivamente, activadas desde dispositivos 
 🎥 ¿Qué tipo de contenido en tiempo real te gustaría generar?
 
 Visuales generativos sincronizados con la narrativa (incienso, velas, flores creciendo), adaptados a la arquitectura de la iglesia y su entorno. También posibilidad de mostrar en tiempo real métricas de participación o reacciones poéticas de los asistentes.
+
+
+---
+
+**Repositorio del proyecto:**
+
+[SFI_2_Proyecto_Curso_Santa_Pasion](https://github.com/DannieLudens/SFI_2_Proyecto_Curso_Santa_Pasion/tree/main)
+
+Visualizacion preliminar:
+
+![OmenCommandCenterBackground_KCaeLAIHhs](https://github.com/user-attachments/assets/1c607b42-933f-43ce-b78c-fbcbc7a9bdc2)
+
+
